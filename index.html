@@ -614,6 +614,25 @@
         <div class="loader-spinner"></div>
         <div class="loader-text">Chào mừng đến với trang cá nhân của Hoàng Vinh<br>Đang tải dữ liệu...</div>
     </div>
+    <audio id="bgMusic" src="https://files.catbox.moe/oxpta0.mp3" autoplay loop style="display:none"></audio>
+    <script>
+        // Attempt to play music after user interaction (for browser autoplay policy)
+        function playMusic() {
+            const audio = document.getElementById('bgMusic');
+            if (audio.paused) {
+                audio.play().catch(()=>{});
+            }
+            document.removeEventListener('click', playMusic);
+            document.removeEventListener('keydown', playMusic);
+        }
+        document.addEventListener('click', playMusic);
+        document.addEventListener('keydown', playMusic);
+        // Try to play on load (may be blocked)
+        window.addEventListener('load', function() {
+            const audio = document.getElementById('bgMusic');
+            audio.play().catch(()=>{});
+        });
+    </script>
 
     <!-- Notification -->
     <div class="notification" id="notification">
@@ -628,12 +647,20 @@
             <small>Welcome to Nguyen Hoang Vinh's personal profile page!</small><br>
             <small>欢迎来到王进的个人主页</small>
         </div>
-    </div>
+        </div>
+        <script>
+        // Auto-hide notification after 3 seconds
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+            document.getElementById('notification').classList.remove('show');
+            }, 6000); // 1s delay show + 3s visible
+        });
+        </script>
 
     <div class="container" id="mainContainer">
         <header>
             <h1 style="font-size: 2.5rem;">
-            <img src="https://bundev-coder.github.io/avata/load.gif" alt="Loading Icon" style="width: 60px; height: 60px; vertical-align: middle; margin-right: 15px;">
+            <img src="https://bundev-coder.github.io/avata/load.gif" alt="Loading Icon" style="width: 36px; height: 36px; vertical-align: middle; margin-right: 15px;">
             Home
             </h1>
             <button class="theme-toggle" id="themeToggle">
@@ -723,7 +750,7 @@
                         <button class="copy-btn" data-copy="090695">
                             <i class="fas fa-copy"></i> Copy Account Number
                         </button>
-                        <button class="qr-btn" data-qr="MbBank|NGYUYEN HOANG VINH|090695">
+                        <button class="qr-btn" data-qr="MbBank|NGUYEN HOANG VINH|090695">
                             <i class="fas fa-qrcode"></i> QR Code
                         </button>
                     </div>
