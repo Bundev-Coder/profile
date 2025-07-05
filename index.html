@@ -20,6 +20,7 @@
             --skill-bg: rgba(124, 58, 237, 0.1);
             --skill-border: rgba(124, 58, 237, 0.3);
             --notification-bg: rgba(124, 58, 237, 0.2);
+            --modal-bg: rgba(0, 0, 0, 0.85);
         }
 
         [data-theme="light"] {
@@ -35,6 +36,7 @@
             --skill-bg: rgba(124, 58, 237, 0.1);
             --skill-border: rgba(124, 58, 237, 0.2);
             --notification-bg: rgba(124, 58, 237, 0.2);
+            --modal-bg: rgba(255, 255, 255, 0.9);
         }
 
         * {
@@ -42,7 +44,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s, opacity 0.3s;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s, opacity 0.3s, transform 0.3s;
         }
         
         body {
@@ -133,6 +135,18 @@
             letter-spacing: -0.5px;
         }
         
+        .home-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .home-loader {
+            width: 36px;
+            height: 36px;
+            animation: pulse 1.5s infinite;
+        }
+        
         .theme-toggle {
             background: rgba(124, 58, 237, 0.1);
             border: none;
@@ -175,6 +189,7 @@
             object-fit: cover;
             box-shadow: 0 5px 25px rgba(124, 58, 237, 0.2);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background: linear-gradient(45deg, #7c3aed, #4a22d9);
         }
 
         .crown {
@@ -340,6 +355,11 @@
             width: 80%;
             height: auto;
             object-fit: contain;
+            transition: transform 0.3s;
+        }
+        
+        .bank-logo:hover img {
+            transform: scale(1.1);
         }
         
         .payment-card h4 {
@@ -506,6 +526,11 @@
             border: 1px solid var(--border-color);
             transition: all 0.3s;
             position: relative;
+            background: linear-gradient(45deg, #1e1e2e, #2a2a3a);
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .picture-item:hover {
@@ -518,6 +543,26 @@
             height: 200px;
             object-fit: cover;
             display: block;
+            transition: transform 0.5s;
+        }
+        
+        .picture-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .img-loader {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(124, 58, 237, 0.2);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 1;
+        }
+        
+        .img-loader.hidden {
+            display: none;
         }
         
         /* Note Section */
@@ -568,6 +613,10 @@
             transform: translateX(0);
         }
         
+        .notification.hide {
+            transform: translateX(150%);
+        }
+        
         .notification-icon {
             font-size: 1.5rem;
             color: var(--primary-color);
@@ -582,6 +631,130 @@
             color: var(--secondary-color);
             cursor: pointer;
             font-size: 1rem;
+        }
+        
+        /* Music Control */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+        
+        .music-control:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Music Modal */
+        .music-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--modal-bg);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s, visibility 0.5s;
+            backdrop-filter: blur(10px);
+        }
+        
+        .music-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .music-modal-content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            transition: transform 0.5s;
+        }
+        
+        .music-modal.show .music-modal-content {
+            transform: translateY(0);
+        }
+        
+        .music-modal h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .music-modal p {
+            margin-bottom: 25px;
+            color: var(--secondary-color);
+            line-height: 1.6;
+        }
+        
+        .music-modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .music-btn {
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .music-btn.confirm {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .music-btn.cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+        
+        .music-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        
+        .floating {
+            animation: float 4s ease-in-out infinite;
         }
         
         @media (max-width: 768px) {
@@ -604,6 +777,33 @@
             .notification.show {
                 transform: translateY(0);
             }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .profile-section {
+                padding: 20px;
+            }
+            
+            .avatar-container {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .crown {
+                width: 200px;
+                top: -12px;
+                right: -15px;
+            }
+            
+            .music-modal-actions {
+                flex-direction: column;
+            }
+            
+            .music-btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -614,25 +814,29 @@
         <div class="loader-spinner"></div>
         <div class="loader-text">Chào mừng đến với trang cá nhân của Hoàng Vinh<br>Đang tải dữ liệu...</div>
     </div>
-    <audio id="bgMusic" src="https://files.catbox.moe/oxpta0.mp3" autoplay loop style="display:none"></audio>
-    <script>
-        // Attempt to play music after user interaction (for browser autoplay policy)
-        function playMusic() {
-            const audio = document.getElementById('bgMusic');
-            if (audio.paused) {
-                audio.play().catch(()=>{});
-            }
-            document.removeEventListener('click', playMusic);
-            document.removeEventListener('keydown', playMusic);
-        }
-        document.addEventListener('click', playMusic);
-        document.addEventListener('keydown', playMusic);
-        // Try to play on load (may be blocked)
-        window.addEventListener('load', function() {
-            const audio = document.getElementById('bgMusic');
-            audio.play().catch(()=>{});
-        });
-    </script>
+    
+    <audio id="bgMusic" src="https://files.catbox.moe/oxpta0.mp3" loop style="display:none"></audio>
+    
+    <!-- Music Control -->
+    <div class="music-control" id="musicControl">
+        <i class="fas fa-play"></i>
+    </div>
+
+    <!-- Music Modal -->
+    <div class="music-modal" id="musicModal">
+        <div class="music-modal-content">
+            <h3>Bật nhạc nền?</h3>
+            <p>Bạn có muốn bật nhạc nền cho trải nghiệm tốt hơn không?</p>
+            <div class="music-modal-actions">
+                <button class="music-btn confirm" id="confirmMusic">
+                    <i class="fas fa-music"></i> Có, bật nhạc
+                </button>
+                <button class="music-btn cancel" id="cancelMusic">
+                    <i class="fas fa-times"></i> Không, cảm ơn
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Notification -->
     <div class="notification" id="notification">
@@ -643,28 +847,21 @@
             <i class="fas fa-star"></i>
         </div>
         <div>
-            <strong>Chào mừng bạn đến với trang cá nhân của Nguyễn Hoàng Vinh!</strong><br>
+            <strong>Chào mừng đến với trang cá nhân của Nguyễn Hoàng Vinh!</strong><br>
             <small>Welcome to Nguyen Hoang Vinh's personal profile page!</small><br>
             <small>欢迎来到王进的个人主页</small>
         </div>
-        </div>
-        <script>
-        // Auto-hide notification after 3 seconds
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-            document.getElementById('notification').classList.remove('show');
-            }, 6000); // 1s delay show + 3s visible
-        });
-        </script>
+    </div>
 
     <div class="container" id="mainContainer">
         <header>
-            <h1 style="font-size: 2.5rem;">
-            <img src="./load.gif" alt="Loading Icon" style="width: 36px; height: 36px; vertical-align: middle; margin-right: 15px;">
-            Home
+            <h1 class="home-title">
+                <img class="home-loader" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%237c3aed' d='M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z'%3E%3CanimateTransform attributeName='transform' type='rotate' from='0 12 12' to='360 12 12' dur='0.75s' repeatCount='indefinite'/%3E%3C/path%3E%3C/svg%3E" alt="Loading">
+                <span>Home</span>
+                <img src="./load.gif" alt="Loading Icon" style="width: 36px; height: 36px; vertical-align: middle; margin-right: 25px;">
             </h1>
             <button class="theme-toggle" id="themeToggle">
-            <i class="fas fa-moon"></i>
+                <i class="fas fa-moon"></i>
             </button>
         </header>
         
@@ -674,15 +871,18 @@
                     src="./avatar.jpg" 
                     alt="Avatar" 
                     class="author-avatar"
+                    loading="lazy"
                 >
                 <img 
                     src="./mong-vuot-rong.png" 
                     class="crown"
+                    alt="Crown"
+                    loading="lazy"
                 >
             </div>
             
             <div class="profile-info">
-                <h2>Nguyen Hoang Vinh <img class="tick" src="./tick.png" alt="Verified"></h2>
+                <h2>Nguyen Hoang Vinh <img class="tick" src="./tick.png" alt="Verified" loading="lazy"></h2>
                 <p class="tagline">如果你擅长某件事，千万不要免费去做。</p>
                 <div class="details">
                     <div class="location">
@@ -706,7 +906,7 @@
                 <p>Developer / Designer / Vexer</p>
                 <p>Hello, my name is Nguyen Hoang Vinh. I am a member of WusTeam and a freelance programmer, with a passion for coding driven by pure interest.</p>
                 <p>My main interest lies in back-end.</p>
-                <p>I enjoy overthinking. <img src="5991da42769d1826ea219fb3baa827df.gif" alt="Thinking Icon" style="width: 32px; height: 32px; vertical-align: middle; margin-left: 10px;"></p>
+                <p>I enjoy overthinking. <img src="5991da42769d1826ea219fb3baa827df.gif" alt="Thinking Icon" style="width: 32px; height: 32px; vertical-align: middle; margin-left: 10px;" loading="lazy"></p>
             </div>
             
             <a href="#" class="download-btn">
@@ -720,9 +920,10 @@
                 <!-- ACB Card -->
                 <div class="payment-card">
                     <div class="bank-logo" style="border-radius: 12px;">
-                        <img src="523f3212c903682d08ad396f413f1425.png" alt="ACB Logo" style="border-radius: 10px;">
+                        <img src="523f3212c903682d08ad396f413f1425.png" alt="ACB Logo" style="border-radius: 10px;" loading="lazy">
                     </div>
                     <h4>
+                        <img src="https://cdn.pixabay.com/animation/2022/07/29/14/39/14-39-55-151_512.gif" alt="Bank Icon" style="width: 28px; height: 28px; vertical-align: middle; margin-right: 8px;" loading="lazy">
                         NGUYEN HOANG VINH
                     </h4>
                     <p>239235</p>
@@ -738,10 +939,10 @@
                 <!-- VietinBank Card -->
                 <div class="payment-card">
                     <div class="bank-logo" style="border-radius: 12px;">
-                        <img src="523f3212c903682d08ad396f413f1425.png" alt="VietinBank Logo" style="border-radius: 10px;">
+                        <img src="523f3212c903682d08ad396f413f1425.png" alt="VietinBank Logo" style="border-radius: 10px;" loading="lazy">
                     </div>
                     <h4>
-                        <img src="https://cdn.pixabay.com/animation/2022/07/29/14/39/14-39-55-151_512.gif" alt="Bank Icon" style="width: 28px; height: 28px; vertical-align: middle; margin-right: 8px;">
+                        <img src="https://cdn.pixabay.com/animation/2022/07/29/14/39/14-39-55-151_512.gif" alt="Bank Icon" style="width: 28px; height: 28px; vertical-align: middle; margin-right: 8px;" loading="lazy">
                         NGUYEN HOANG VINH
                     </h4>
                     <p>090695</p>
@@ -761,10 +962,18 @@
             <h3 class="section-title"><i class="fas fa-image"></i> Picture</h3>
             <div class="picture-grid">
                 <div class="picture-item">
-                    <img src="https://i.pinimg.com/originals/44/e0/fa/44e0fa1d064522cbf1983a3e1a700f63.gif" alt="Picture 1">
+                    <div class="img-loader"></div>
+                    <img src="https://i.pinimg.com/originals/44/e0/fa/44e0fa1d064522cbf1983a3e1a700f63.gif" 
+                         alt="Picture 1" 
+                         loading="lazy"
+                         onload="this.parentNode.querySelector('.img-loader').classList.add('hidden')">
                 </div>
                 <div class="picture-item">
-                    <img src="https://i.ibb.co/b5cYhf5m/image.png" alt="Picture 2">
+                    <div class="img-loader"></div>
+                    <img src="https://i.ibb.co/b5cYhf5m/image.png" 
+                         alt="Picture 2" 
+                         loading="lazy"
+                         onload="this.parentNode.querySelector('.img-loader').classList.add('hidden')">
                 </div>
             </div>
         </div>
@@ -852,15 +1061,31 @@
                 const loader = document.getElementById('loader');
                 const mainContainer = document.getElementById('mainContainer');
                 const notification = document.getElementById('notification');
+                const homeLoader = document.querySelector('.home-loader');
                 
                 loader.classList.add('hidden');
                 mainContainer.classList.add('show');
                 
+                // Ẩn loader trên chữ Home
+                if (homeLoader) {
+                    homeLoader.remove();
+                }
+                
                 // Show notification after page loads
                 setTimeout(() => {
                     notification.classList.add('show');
+                    
+                    // Ẩn thông báo chào mừng sau 3 giây
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                        
+                        // Hiển thị modal hỏi bật nhạc sau 0.5 giây
+                        setTimeout(() => {
+                            document.getElementById('musicModal').classList.add('show');
+                        }, 500);
+                    }, 3000);
                 }, 1000);
-            }, 1500); // 1.5 seconds loading time
+            }, 800); // Reduced loading time
         });
 
         // Close notification
@@ -868,7 +1093,7 @@
             document.getElementById('notification').classList.remove('show');
         });
 
-        // Theme toggle - fixed version
+        // Theme toggle
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
         const icon = themeToggle.querySelector('i');
@@ -965,6 +1190,42 @@
         window.addEventListener('click', (event) => {
             if (event.target === qrModal) {
                 qrModal.style.display = 'none';
+            }
+        });
+
+        // Music control
+        const musicControl = document.getElementById('musicControl');
+        const audio = document.getElementById('bgMusic');
+        let isPlaying = false;
+        
+        musicControl.addEventListener('click', function() {
+            if (isPlaying) {
+                audio.pause();
+                musicControl.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                audio.play().catch(e => console.log('Autoplay prevented:', e));
+                musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            isPlaying = !isPlaying;
+        });
+        
+        // Music modal handling
+        document.getElementById('confirmMusic').addEventListener('click', function() {
+            document.getElementById('musicModal').classList.remove('show');
+            audio.play().catch(e => console.log('Autoplay prevented:', e));
+            musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+            isPlaying = true;
+        });
+        
+        document.getElementById('cancelMusic').addEventListener('click', function() {
+            document.getElementById('musicModal').classList.remove('show');
+        });
+        
+        // Optimized image loading
+        document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+            if (img.complete) {
+                const loader = img.parentNode.querySelector('.img-loader');
+                if (loader) loader.classList.add('hidden');
             }
         });
     </script>
